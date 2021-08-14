@@ -103,6 +103,25 @@ $ docker run --rm \
     ....
    
     * Jalankan project : mvn clean spring-boot:run
+    
+    ### Skema Database Entity Maping
+    Buat Entity class
+   
+   10. Buat class entity untun setiap table pada database
+   11. Buat class BaseEntity yang berisi field" yang ada di semua entity
+       - di class BaseEntity juga akan diterapkan metode soft delete (data yang dihapus tidak benar" dihapus)
+       - terdapat Auidit rail (pengecekan log)
+   12. ganti "spring.jpa.hibernate.ddl-auto=validate" menjadi update
+   13. jalankan lagi projectnya "mvn clean spring-boot:run"
+   14. jalankan pg_dump untuk melihat syntax sql yang dihasilkan
+   15. copy semua syntax sql block by blok kedalam db_migration 
+   16. rubah lagi "spring.jpa.hibernate.ddl-auto=validate" menjadi validate
+   17. restart database
+   18. restart aplikasi
+   19. tambahkan relasi many to many pada class InvoiceType
+   20. buat bridge table many to many di skema database
+   21. Restart docker, hapus folder, dan restart aplikasi  
+    
    
 
       
