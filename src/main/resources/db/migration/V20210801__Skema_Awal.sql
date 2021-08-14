@@ -1,6 +1,9 @@
 CREATE TABLE payment_provider (
     id VARCHAR (36),
-    PRIMARY KEY (id)
+    code VARCHAR (100) NOT NULL,
+    nama VARCHAR (100) NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT code_unique UNIQUE (code)
 );
 
 CREATE TABLE invoice_type (
