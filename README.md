@@ -46,7 +46,7 @@ $ docker run --rm \
       -e POSTGRES_USER=invoice \
       -e POSTGRES_PASSWORD=L5eACAebPZzrYbRZdUfm \
       -e PGDATA=/var/lib/postgresql/data/pgdata \
-      -v "$PWD/invoicedb:/var/lib/postgresql/data" \
+      -v "f:/Java Projects/belajar-java-web/invoice-management/invoicedb:/var/lib/postgresql/data" \
       -p 5432:5432 \
     postgres:13
 ...
@@ -178,3 +178,29 @@ $ docker run --rm \
         }
         ...
     
+### Membuat Service, Exception, dan Helper
+    - Service digunakan ketika terdapat bisnis proses yang melibatkan beberapa DAO (rumit),
+    sedangkan jika hanya sederhana maka bisa langsung dibuat di controller
+
+    - Checked Exception digunakan untuk exception yang bisa ditangani oleh controller,
+    atau terdapat kondisi yang bisa ditangani oleh user (seperti salah input, dll).
+    
+    - Runtime exception digunakan untuk exception yang terjadi tidak bisa ditangani oleh user
+    sehingga ditampilkan generic error yang memberi tahu kepada user untuk menghubungi team developer.
+
+    
+    - Untuk method yang kemungkinan akan dipakai di banyak tempat, jangan melakukan copy paste.
+    akan tetapi harus dijadikan sebuah class static bernama helper sehingga bisa langsung dipakai di
+    banyak tempat.
+
+    29. Membuat PaymentService
+        * membuat class service dan menambahkan annotation @Service, @Transactional
+        // Proses bisnis :
+        /**
+         * 1. Cek Apakah Virtual Account ada ?
+         *  - Query ke tabel virtual acount ( membuat objek VirtualAccountDao)
+         *  - query dengan menggunakan findBy
+         */
+
+        // Contoh Implementasi topdown programming (coding dulu, trus automatis dibuatin method implementasinya sama 
+        // editor)
