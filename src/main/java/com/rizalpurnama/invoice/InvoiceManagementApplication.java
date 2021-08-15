@@ -1,5 +1,6 @@
 package com.rizalpurnama.invoice;
 
+import com.rizalpurnama.invoice.entity.InvoiceType;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

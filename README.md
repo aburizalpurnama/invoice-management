@@ -120,14 +120,61 @@ $ docker run --rm \
    18. restart aplikasi
    19. tambahkan relasi many to many pada class InvoiceType
    20. buat bridge table many to many di skema database
-   21. Restart docker, hapus folder, dan restart aplikasi  
+   21. Restart docker, hapus folder, dan restart aplikasi
     
-   
+## Membuat DAO dan menerapkan Soft Delete
 
-      
+    22. Membauat Interface Dao untuk masing-masing bussines proses
+        - extends PaginAndSortingRepository<Entity entityClass, Tipedata typePrimaryKey>
+
+    23. Buat testing Audit rail dan soft delete
+        - cukup test satu saja
+
+    24. Buat config untuk JpaAuditing
+        ...
+        @Configuration
+        @EnableJpaAuditing(auditorAwareRef = "auditorProvider")
+        public class JpaAuditingConfig {
+        
+            @Bean
+            public AuditorAware<String> auditorProvider(){
+                return () -> Optional.of("Test user");
+            }
+        }
+        ...
     
+    26. tambahkan annotation @EntitiyListener(AuditingEntityListener.class) di BaseEntity (Sehingga bisa berjalan di 
+        semua entity)
 
+    27. Buat SQL yang akan selalu dijalankan ketika melakukan testing
+        - Salah satu kegunaanya adalah untuk menghapus record sebelum melakukan testing,
+        supaya tidak error saat field yang diinputkan harus unique.
+            * Buat file sql di diresources test
+            ...
+                DELETE FROM invoice-type;
+            ...
+            * tambahkan annotation @Sql(script = "/folder/filesql.sql") pada class testing
 
+    28. Testing UpdatedTime
+        - Menjalankan Thread.sleep(2000), merubah record, kemudian menyimpan perubahan dengan hasil returnya
+        diisikan ke objek.
+        - Kemudian jalankan Assertion.assetNotEquals()
 
-
-L5eACAebPZzrYbRZdUfm
+    29. Testing soft delete
+        - Buat sql untuk insert record dengan status ACTIVE dan INACTIVE
+        - Tambahkan file sql tersebut kedalam anotation @Sql di class testing
+        - lakukan testing dengan menghitung jumlah record, kemudian menghapus salahsatunya.
+        ...
+         @Test
+        void testSoftDelete() {
+            long total = invoiceTypeDao.count();
+            System.out.println("Total record sebelum didelete: " +total);
+            Assertions.assertEquals(2, total);
+    
+            invoiceTypeDao.delete(invoiceTypeDao.findById("test02").get());
+            total = invoiceTypeDao.count();
+            System.out.println("Total record sesudahb didelete: " +total);
+            Assertions.assertEquals(1, total);
+        }
+        ...
+    
