@@ -19,6 +19,9 @@ public class PaymentService {
     @Autowired
     private VirtualAccountDao virtualAccountDao;
 
+    @Autowired
+    private AuditLogService auditLogService;
+
     public void pay(PaymentProvider provider,
                     String companyId, String accountNumber,
                     BigDecimal amount, String refference)
@@ -27,8 +30,11 @@ public class PaymentService {
         // Proses bisnis :
 
         VirtualAccount va = VirtualAccountHelper.cekVaAda(virtualAccountDao, provider, companyId, accountNumber);
+        auditLogService.log("Virtual Account : " + va);
 
         cekVaLunas(provider, companyId, accountNumber, va);
+        auditLogService.log("Cek Lunas");
+
         // 3. Cek apakah amount > total tagihan ?
         // 4. Update status Virtual Account jadi lunas
         // 5. Update status invoice menjadi lunas

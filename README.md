@@ -46,9 +46,13 @@ $ docker run --rm \
       -e POSTGRES_USER=invoice \
       -e POSTGRES_PASSWORD=L5eACAebPZzrYbRZdUfm \
       -e PGDATA=/var/lib/postgresql/data/pgdata \
-      -v "f:/Java Projects/belajar-java-web/invoice-management/invoicedb:/var/lib/postgresql/data" \
+      -v "f:/JavaProjects/belajarJavaWeb/invoiceManagement/invoicedb:/var/lib/postgresql/data" \
       -p 5432:5432 \
     postgres:13
+
+for Windows Command promt:
+
+docker run --rm       --name invoice-db       -e POSTGRES_DB=invoicedb       -e POSTGRES_USER=invoice       -e POSTGRES_PASSWORD=L5eACAebPZzrYbRZdUfm       -e PGDATA=/var/lib/postgresql/data/pgdata       -v "f:/JavaProjects/belajarJavaWeb/invoiceManagement/invoicedb:/var/lib/postgresql/data"       -p 5432:5432     postgres:13
 ...
     * ketik command diatas kedalam teminal.
 

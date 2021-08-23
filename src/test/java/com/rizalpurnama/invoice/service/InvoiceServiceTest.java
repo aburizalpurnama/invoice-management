@@ -1,4 +1,4 @@
 package com.rizalpurnama.invoice.service;
 
-public class InvoiceServiceTest {
+public class InvoiceServiceTest     {
 }

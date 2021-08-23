@@ -14,11 +14,14 @@ import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Entity
-@Data
+@Entity @Data
 @SQLDelete(sql = "UPDATE invoice SET status_record = 'INACTIVE' WHERE id=?")
 @Where(clause = "status_record='ACTIVE'")
 public class Invoice extends BaseEntity{
+
+    @NotNull @NotEmpty
+    @ManyToOne @JoinColumn(name = "id_customer")
+    private Customer customer;
 
     @NotNull @NotEmpty
     @ManyToOne @JoinColumn(name = "id_invoice_type")
